@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#define MAX 80
+#define MAX 50
 #define TXT 25
 
 
@@ -21,11 +21,11 @@ void gets2(char s[], int max){
   return;
 }
 
-void Codificar(FILE *f){
-    int a[MAX], i, x, y;
-    char s[MAX], n, m;
+void Codificar(FILE *f, FILE *h){
+    int a[TXT], i, x, y;
+    char s[TXT], n, m;
 
-    fgets(s, MAX, f);
+        fgets(s, MAX, f);
     
     for(i = 0; s[i] != '\n' && s[i] != '\0'; i++){
         a[i]=s[i];
@@ -35,18 +35,18 @@ void Codificar(FILE *f){
         n=hexadecimal(x);
         m=hexadecimal(y);
         
-        printf("%c%c", n, m);
+        fprintf(h, "%c%c", n, m);
 
     }
     printf("\n");
-    return;
+    return ;
 }
 
-void Descodificar(FILE *f){
+void Descodificar(FILE *f, FILE *h){
     char  n, i, x, y;
     char s[MAX],a[MAX];
     
-    fgets(a, MAX, f);
+        fgets(a, MAX, f);
 
     for(i = 0; a[i] != '\n' && a[i] != '\0'; i++){
         if(a[i]=='0')
@@ -91,7 +91,7 @@ void Descodificar(FILE *f){
         
         if(i%2==1){
             a[i]=x+y;
-            printf("%c", a[i]); 
+            fprintf(h, "%c", a[i]); 
         }
         
             
@@ -108,36 +108,47 @@ int main(){
     FILE *f;
     FILE *h;
 
-	
-		while(opcao != 1 && opcao != 2){
-			printf("Selecione a operação:\n");
-	    	printf("1 - Codificar\n");
-	    	printf("2 - Decodificar\n");
-	    	scanf("%d", &opcao);
-		}
+	    do{
+            do{
+               printf("Selecione a operação:\n");
+               printf("1 - Codificar\n");
+               printf("2 - Decodificar\n");
+               scanf("%d", &opcao);
+            }while(opcao != 1 && opcao != 2);
+		    
     
-    	do{
-        	printf("Digite o caminho de entrada:");
-        	scanf("%d", &i);
-        	gets2(entrada, TXT);
+    	    do{
+        	   printf("Digite o caminho de entrada:");
+        	   scanf("%d", &i);
+        	   gets2(entrada, TXT);
 
-        	f = fopen(entrada, "r");
-        }while(f == NULL);
+        	   f = fopen(entrada, "r");
+            }while(f == NULL);
     	
-    	if(opcao==1)
-            Codificar(f);
-        else
-            Descodificar(f);
-
-        do{
-            printf("Digite o caminho de saida:");
-            gets2(saida, TXT);
-            h = fopen(saida, "w");   
-        }while(h == NULL);
+            do{
+                printf("Digite o caminho de saida:");
+                gets2(saida, TXT);
+               
+                h = fopen(saida, "w");   
+            }while(h == NULL);
       
-			fclose(f);
+            if(opcao==1)
+                Codificar(f, h);
+            else
+                Descodificar(f, h);
+			
+            fclose(f);
         	fclose(h);
-    	
+    	   
+            do{
+                printf("Deseja efetuar uma nova operacao? (s/n):");
+                scanf("%d", &i);
+                scanf("%c", &again);
+                if(again=='n')
+                    return 0; 
+                
+            }while(again != 's' && again != 'n');
+        }while(again=='s');
 	return 0;
 }
 
