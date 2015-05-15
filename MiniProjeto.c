@@ -25,7 +25,7 @@ void Codificar(FILE *f, FILE *h){
     int a[TXT], i, x, y;
     char s[TXT], n, m;
 
-        fgets(s, MAX, f);
+    fgets(s, MAX, f);
     
     for(i = 0; s[i] != '\n' && s[i] != '\0'; i++){
         a[i]=s[i];
@@ -39,6 +39,7 @@ void Codificar(FILE *f, FILE *h){
 
     }
     printf("\n");
+    
     return ;
 }
 
@@ -104,7 +105,7 @@ void Descodificar(FILE *f, FILE *h){
 int main(){
 	int opcao=0, i;
     char entrada[TXT], saida[TXT], linha[MAX];
-    char again, oi;
+    char repetir, oi;
     FILE *f;
     FILE *h;
 
@@ -129,9 +130,11 @@ int main(){
                 printf("Digite o caminho de saida:");
                 gets2(saida, TXT);
                
-                h = fopen(saida, "w");   
+                h = fopen(saida, "r"); 
+                fclose(h);  
             }while(h == NULL);
-      
+            h = fopen(saida, "w"); 
+            
             if(opcao==1)
                 Codificar(f, h);
             else
@@ -143,12 +146,12 @@ int main(){
             do{
                 printf("Deseja efetuar uma nova operacao? (s/n):");
                 scanf("%d", &i);
-                scanf("%c", &again);
-                if(again=='n')
+                scanf("%c", &repetir);
+                if(repetir=='n')
                     return 0; 
                 
-            }while(again != 's' && again != 'n');
-        }while(again=='s');
+            }while(repetir != 's' && repetir != 'n');
+        }while(repetir=='s');
 	return 0;
 }
 
