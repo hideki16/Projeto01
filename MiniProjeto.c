@@ -14,7 +14,9 @@ char hexadecimal(int y){
 
 void gets2(char s[], int max){
   int i;
-  fgets(s, max, stdin);
+  
+    fgets(s, max, stdin);
+  
   for(i=0; s[i] != '\0' && s[i] != '\n'; i++)
     ;
       s[i] = '\0';
@@ -25,7 +27,7 @@ void Codificar(FILE *f, FILE *h){
     int a[TXT], i, x, y;
     char s[TXT], n, m;
 
-    fgets(s, MAX, f);
+        fgets(s, MAX, f);
     
     for(i = 0; s[i] != '\n' && s[i] != '\0'; i++){
         a[i]=s[i];
@@ -43,9 +45,9 @@ void Codificar(FILE *f, FILE *h){
     return ;
 }
 
-void Descodificar(FILE *f, FILE *h){
+void Decodificar(FILE *f, FILE *h){
     char  n, i, x, y;
-    char s[MAX],a[MAX];
+    char a[MAX];
     
         fgets(a, MAX, f);
 
@@ -103,9 +105,9 @@ void Descodificar(FILE *f, FILE *h){
 }
 
 int main(){
-	int opcao=0, i;
-    char entrada[TXT], saida[TXT], linha[MAX];
-    char repetir, oi;
+	int opcao, libera_fluxo;
+    char entrada[TXT], saida[TXT];
+    char repetir;
     FILE *f;
     FILE *h;
 
@@ -120,7 +122,7 @@ int main(){
     
     	    do{
         	   printf("Digite o caminho de entrada:");
-        	   scanf("%d", &i);
+        	   scanf("%d", &libera_fluxo);
         	   gets2(entrada, TXT);
 
         	   f = fopen(entrada, "r");
@@ -138,14 +140,16 @@ int main(){
             if(opcao==1)
                 Codificar(f, h);
             else
-                Descodificar(f, h);
+                Decodificar(f, h);
 			
             fclose(f);
         	fclose(h);
+
+            printf("OPERACAO CONCLUIDA COM SUCESSO!! \\o/ \n");
     	   
             do{
                 printf("Deseja efetuar uma nova operacao? (s/n):");
-                scanf("%d", &i);
+                scanf("%d", &libera_fluxo);
                 scanf("%c", &repetir);
                 if(repetir=='n')
                     return 0; 
