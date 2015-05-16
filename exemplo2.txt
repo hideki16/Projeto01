@@ -1,3 +1,4 @@
+4
 Primeira linha, normal.
 Segunda linha, curta.
 Terceira linha, longa demais.

@@ -24,23 +24,28 @@ void gets2(char s[], int max){
 }
 
 void Codificar(FILE *f, FILE *h){
-    int a[TXT], i, x, y;
+    int a[TXT], i, j, x, y, linha;
     char s[TXT], n, m;
-
+        
+    fscanf(f,"%d", &linha);
+    fprintf(h, "%d\n", linha);
+        
+    for(j=0; j < linha; j++){
+        
         fgets(s, MAX, f);
-    
-    for(i = 0; s[i] != '\n' && s[i] != '\0'; i++){
-        a[i]=s[i];
-        x=(a[i])/16;
-        y=(a[i])%16;
         
-        n=hexadecimal(x);
-        m=hexadecimal(y);
-        
-        fprintf(h, "%c%c", n, m);
+        for(i = 0; s[i] != '\n' && s[i] != '\0'; i++){
+            a[i]=s[i];
+            x=(a[i])/16;
+            y=(a[i])%16;
+            
+            n=hexadecimal(x);
+            m=hexadecimal(y);
+            
+            fprintf(h, "%c%c", n, m);
 
+        }
     }
-    printf("\n");
     
     return ;
 }
@@ -87,7 +92,6 @@ void Decodificar(FILE *f, FILE *h){
         if(i%2==0){
             x=n*16;
         }
-            
         else{
             y=n;
         }
@@ -96,9 +100,8 @@ void Decodificar(FILE *f, FILE *h){
             a[i]=x+y;
             fprintf(h, "%c", a[i]); 
         }
-        
-            
     }
+    
     printf("\n");
     return ;
 
