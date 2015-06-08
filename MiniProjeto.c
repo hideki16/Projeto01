@@ -23,94 +23,10 @@ void gets2(char s[], int max){
   return;
 }
 
-void Codificar(FILE *f, FILE *h){
-    int a[TXT], i, j, x, y, linha;
-    char s[TXT], n, m;
-        
-    fscanf(f,"%d", &linha);
-    fprintf(h, "%d\n", linha);
-        
-    for(j=0; j < linha; j++){
-        
-        fgets(s, MAX, f);
-        
-        for(i = 0; s[i] != '\n' && s[i] != '\0'; i++){
-            a[i]=s[i];
-            x=(a[i])/16;
-            y=(a[i])%16;
-            
-            n=hexadecimal(x);
-            m=hexadecimal(y);
-            
-            fprintf(h, "%c%c", n, m);
-
-        }
-    }
-    
-    return ;
-}
-
-void Decodificar(FILE *f, FILE *h){
-    char  n, i, x, y;
-    char a[MAX];
-    
-        fgets(a, MAX, f);
-
-    for(i = 0; a[i] != '\n' && a[i] != '\0'; i++){
-        if(a[i]=='0')
-            n=0;
-        if(a[i]=='1')
-            n=1;
-        if(a[i]=='2')
-            n=2;
-        if(a[i]=='3')
-            n=3;
-        if(a[i]=='4')
-            n=4;
-        if(a[i]=='5')
-            n=5;
-        if(a[i]=='6')
-            n=6;
-        if(a[i]=='7')
-            n=7;
-        if(a[i]=='8')
-            n=8;
-        if(a[i]=='9')
-            n=9;
-        if(a[i]=='A')
-            n=10;
-        if(a[i]=='B')
-            n=11;
-        if(a[i]=='C')
-            n=12;
-        if(a[i]=='D')
-            n=13;
-        if(a[i]=='E')
-            n=14;
-        if(a[i]=='F')
-            n=15;
-        if(i%2==0){
-            x=n*16;
-        }
-        else{
-            y=n;
-        }
-        
-        if(i%2==1){
-            a[i]=x+y;
-            fprintf(h, "%c", a[i]); 
-        }
-    }
-    
-    printf("\n");
-    return ;
-
-}
-
 int main(){
-	int opcao, libera_fluxo;
-    char entrada[TXT], saida[TXT];
-    char repetir;
+	int opcao, libera_fluxo, n, i, j, k, x, y, c[MAX], quantidade;
+    char entrada[TXT], saida[TXT],linha[TXT], codificado[MAX];
+    char repetir, l, m;
     FILE *f;
     FILE *h;
 
@@ -132,18 +48,107 @@ int main(){
             }while(f == NULL);
     	
             do{
-                printf("Digite o caminho de saida:");
-                gets2(saida, TXT);
-               
-                h = fopen(saida, "r"); 
-                fclose(h);  
+               printf("Digite o caminho de saida:");
+               scanf("%d", &libera_fluxo);
+               gets2(saida, TXT);
+
+               h = fopen(saida, "r");
             }while(h == NULL);
+
+            fclose(h);
             h = fopen(saida, "w"); 
             
-            if(opcao==1)
-                Codificar(f, h);
-            else
-                Decodificar(f, h);
+            if(opcao==1){
+                fscanf(f, "%d", &quantidade);
+
+                for(i=0; quantidade>=i ; i++){
+                        
+                    fgets(linha, MAX, f);
+                
+                    k=0;
+                    
+                    for(j=0; linha[j] != '\n' && linha[j] != '\0'; j++){
+                        c[j]=linha[j];
+                        x=(linha[j])/16;
+                        y=(linha[j])%16;
+                
+                        l=hexadecimal(x);
+                        m=hexadecimal(y);
+
+                        codificado[k]=l;
+                        codificado[k+1]=m;
+                            
+                        k=k+2;
+                    }
+                codificado[k] = '\0';
+                if(i==0)
+                    fprintf(h, "%d\n", quantidade);
+                else
+                    fprintf(h, "%s\n", codificado); 
+                }    
+            }
+            
+            else{
+
+                fscanf(f,"%d", &quantidade);
+
+                for(i=0; quantidade>=i ; i++){
+
+                    j=0;
+
+                    fgets(codificado, MAX, f);
+                    for(k = 0; codificado[k] != '\n' && codificado[k] != '\0'; k++){
+                        if(codificado[k]=='0')
+                            n=0;
+                        if(codificado[k]=='1')
+                            n=1;
+                        if(codificado[k]=='2')
+                            n=2;
+                        if(codificado[k]=='3')
+                            n=3;
+                        if(codificado[k]=='4')
+                            n=4;
+                        if(codificado[k]=='5')
+                            n=5;
+                        if(codificado[k]=='6')
+                            n=6;
+                        if(codificado[k]=='7')
+                            n=7;
+                        if(codificado[k]=='8')
+                            n=8;
+                        if(codificado[k]=='9')
+                            n=9;
+                        if(codificado[k]=='A')
+                            n=10;
+                        if(codificado[k]=='B')
+                            n=11;
+                        if(codificado[k]=='C')
+                            n=12;
+                        if(codificado[k]=='D')
+                            n=13;
+                        if(codificado[k]=='E')
+                            n=14;
+                        if(codificado[k]=='F')
+                            n=15;
+                            
+                        if(k%2==0)
+                            x=n*16;
+                    
+                        if(k%2==1)
+                            y=n;
+                
+                        if(k%2==1){
+                            linha[j]=x+y;
+                            j++;
+                        }
+                }
+                linha[j] = '\0';
+                if(i==0)
+                    fprintf(h, "%d\n", quantidade);
+                else
+                    fprintf(h, "%s\n", linha);
+            }
+        }        
 			
             fclose(f);
         	fclose(h);
@@ -159,7 +164,6 @@ int main(){
                 
             }while(repetir != 's' && repetir != 'n');
         }while(repetir=='s');
-	return 0;
 }
 
 
